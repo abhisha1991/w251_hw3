@@ -1,0 +1,30 @@
+# base commands
+
+sudo docker ps -a
+sudo docker images
+sudo docker rm -f <container name>
+sudo docker logs <container name>
+sudo docker start <container name>
+sudo docker stop <container name>
+
+# -d starts the container in daemon mode
+
+# create an image with (after creating dockerfile)
+sudo docker build <docker folder location> -t  <image tag>
+
+# can mount ports and volumes of a docker image against local machine
+format is local_machine:container
+-p for ports and -v for volumes
+changes made to files that reside in the container or host machine if the volumes are mapped, get reflected on the other side
+
+# be careful about --rm - if you stop the container, then the container gets auto removed when this flag is enabled
+sudo docker run --rm -d --name <container name> -it <image name>
+
+# enter into container with (for ubuntu based)
+sudo docker exec -it <container name> /bin/bash
+
+for alpine based
+sudo docker exec -it <container name> /bin/sh
+
+note that you CANNOT copy files outside of the build context folder, 
+so you have to run COPY . /containerdata if you want to copy all contents from "Dockerfile's current folder" to the container created
