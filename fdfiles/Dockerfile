@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:bionic
 USER root
 
 RUN apt-get update \
@@ -7,14 +7,21 @@ RUN apt-get update \
     curl \
     cmake \
     git \
-    python-pip \
-    python-setuptools \
-    python-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-dev \
     python3 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    mosquitto-clients \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install numpy
-RUN pip install opencv-python
+RUN pip3 install numpy
+RUN pip3 install opencv-python
+RUN pip3 install paho-mqtt
+RUN pip3 install requests
 
 VOLUME /containerbase
 WORKDIR /containerbase
