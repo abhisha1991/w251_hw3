@@ -1,14 +1,27 @@
 print("Starting facial detection task...")
 import numpy as np
 import cv2
+import time
+import requests
 
 # 1 should correspond to /dev/video1 , your USB camera. The 0 is reserved for the TX2 onboard camera
 cap = cv2.VideoCapture(1)
-face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+xml_file_url = "https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml"
+xml_file = "haarcascade_frontalface_default.xml"
+
+r = requests.get(xml_file_url)
+with open(xml_file, 'wb') as f:
+    f.write(r.content)
+
+face_cascade = cv2.CascadeClassifier(xml_file)
 
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
+
+    if frame is None:
+        time.sleep(5)
+        continue
 
     # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
