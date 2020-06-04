@@ -28,6 +28,7 @@ face_cascade = cv2.CascadeClassifier(xml_file)
 cap = cv2.VideoCapture(1)
 
 while(True):
+    time.sleep(10)
     # Capture frame-by-frame
     ret, frame = cap.read()
 
