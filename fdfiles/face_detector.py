@@ -57,7 +57,7 @@ while(True):
         cv2.imwrite(img_name, frame)
         image = cv2.imread(img_name)
         # finally send the image via mqtt
-        ret = client1.publish("fdimages/test", bytes(image))
+        ret = client1.publish("fdimagestx2/test", bytes(image))
         print("sent image data!")
 
 # When everything done, release the capture
