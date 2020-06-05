@@ -25,6 +25,7 @@ def republish_to_remote(message):
     print("creating a new publisher client instance on host", hostname)
     client2 = mqtt.Client("P1")
     client2.on_publish = on_publish_remote
+    print("creating new broker on fwder publisher client")
     client2.connect("50.22.169.235", 1883)
     client2.publish("fdimages/test", bytes(message))
     print("sent data remote!")
@@ -36,8 +37,8 @@ client = mqtt.Client("P1tx2")
 client.on_connect = on_connect
 client.on_message = on_message
 
-print("connecting to broker")
-client.connect("127.0.0.1", 1883, 60)
+print("connecting to broker on subscriber client")
+client.connect("mosquitto1", 1883, 60)
 
 print("Starting a loop on the subscriber")
 # start background daemon to loop forever and listen for that topic
