@@ -16,6 +16,7 @@ def on_publish(client,userdata,result):
 client1 = paho.Client("P1")
 client1.on_publish = on_publish
 client1.connect(broker, port)
+print("Connected to broker")
 
 # create temp directory for images
 path = os.getcwd() + "/img"
