@@ -13,7 +13,7 @@ port = 1883
 def on_publish(client,userdata,result):
     print("data published")
 
-client1 = paho.Client("P1")
+client1 = paho.Client("P1tx2")
 client1.on_publish = on_publish
 client1.connect(broker, port)
 print("Connected to broker")
@@ -48,12 +48,11 @@ while(True):
         time.sleep(5)
         continue
 
-    # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for f in faces:
-        # bad design, needs to be revisited
-        img_name = "{0}/testimage.jpg".format(path)
+        # bad design - writing and then re-reading image, needs to be revisited
+        img_name = "{0}/image.jpg".format(path)
         cv2.imwrite(img_name, frame)
         image = cv2.imread(img_name)
         # finally send the image via mqtt
