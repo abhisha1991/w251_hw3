@@ -8,7 +8,7 @@ import os
 import paho.mqtt.client as paho
 
 # init mqtt
-broker = "127.0.0.1"
+broker = "mosquitto1"
 port = 1883
 def on_publish(client,userdata,result):
     print("data published")
