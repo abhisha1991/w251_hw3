@@ -31,6 +31,10 @@ https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-con
 * mounting of volumes allows changes in docker container to be seen on host and vice versa
 * there is a difference between mounting /data and ~/data on the local machine to the container
 
+## Running containers ##
+* sudo docker run -dit --name <container name> -p 8080:80 -v ~/data:/data <image tag>
+* sudo docker run -dit --name <container name> --network <network bridge> -m 4g <image name>
+
 ## The--rm flag ##
 * if you stop the container, then the container gets auto removed when this flag is enabled
 * sudo docker run --rm -d --name <container name> -it <image name>
