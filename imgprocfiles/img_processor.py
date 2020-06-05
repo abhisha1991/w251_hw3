@@ -23,10 +23,10 @@ def send_to_storage(message):
     # Further, because we connected /data on the host machine to ibm s3
     # any changes in /data on the host machine show up in ibm s3
     # Mounting command: s3fs abhihw3bucket $HOME/data -o url=https://s3.us-east.cloud-object-storage.appdomain.cloud -o passwd_file=$HOME/.cos_creds
-    # Container start command: docker run -dit -v ~/data:/data --name test imgproc1
+    # Container start command: docker run -dit --network hw03 --name test -v ~/data:/data imgproc1
     file_name = "/data/" + str(uuid.uuid4())
     f = open(file_name, "w")
-    f.write(message.payload)
+    f.write(message.payload.decode("utf-8"))
     print("Wrote successfully to file ", file_name)
     f.close()
 

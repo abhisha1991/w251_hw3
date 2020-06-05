@@ -13,5 +13,5 @@ client1.connect(broker, port)
 
 while (True):
     time.sleep(5)
-    ret = client1.publish("fdimages/test","hello-world") 
+    ret = client1.publish("fdimages/test","hello-world")
     print("sent data!")
