@@ -39,7 +39,7 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 print("connecting to broker")
-client.connect("127.0.0.1", 1883, 60)
+client.connect("10.28.81.61", 1883, 60)
 
 print("Starting a loop on the subscriber")
 # start background daemon to loop forever and listen for that topic
