@@ -5,6 +5,17 @@ import time
 import requests
 import random
 import os
+import paho.mqtt.client as paho
+
+# init mqtt
+broker = "127.0.0.1"
+port = 1883
+def on_publish(client,userdata,result):
+    print("data published")
+
+client1 = paho.Client("P1")
+client1.on_publish = on_publish
+client1.connect(broker, port)
 
 # create temp directory for images
 path = os.getcwd() + "/img"
@@ -28,7 +39,6 @@ face_cascade = cv2.CascadeClassifier(xml_file)
 cap = cv2.VideoCapture(1)
 
 while(True):
-    time.sleep(10)
     # Capture frame-by-frame
     ret, frame = cap.read()
 
@@ -46,7 +56,8 @@ while(True):
         cv2.imwrite(img_name, frame)
         image = cv2.imread(img_name)
         # finally send the image via mqtt
-
+        ret = client1.publish("fdimages/test", image)
+        print("sent image data!")
 
 # When everything done, release the capture
 cap.release()
