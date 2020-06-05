@@ -16,6 +16,7 @@ RUN apt-get update \
 
 RUN pip3 install paho-mqtt
 RUN pip3 install requests
+RUN mkdir /data
 
 VOLUME /tmp
 WORKDIR /tmp
