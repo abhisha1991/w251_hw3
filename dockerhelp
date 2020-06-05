@@ -1,30 +1,45 @@
-# base commands
+## Base commands ##
 
-sudo docker ps -a
-sudo docker images
-sudo docker rm -f <container name>
-sudo docker logs <container name>
-sudo docker start <container name>
-sudo docker stop <container name>
+* sudo docker ps -a
+* sudo docker images
+* sudo docker rm -f <container name>
+* sudo docker logs <container name>
+* sudo docker start <container name>
+* sudo docker stop <container name>
+* sudo docker attach <container name>
+* sudo docker detach <container name>
+* sudo docker image rm -f <image tag>
 
-# -d starts the container in daemon mode
+## Remove bulk containers or images ##
+https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
 
-# create an image with (after creating dockerfile)
-sudo docker build <docker folder location> -t  <image tag>
+## Terminology ##
 
-# can mount ports and volumes of a docker image against local machine
-format is local_machine:container
--p for ports and -v for volumes
-changes made to files that reside in the container or host machine if the volumes are mapped, get reflected on the other side
+* -d starts the container in daemon mode
+* -it starts the container in interactive mode
+* sudo docker logs <container name> for inspecting logs
 
-# be careful about --rm - if you stop the container, then the container gets auto removed when this flag is enabled
-sudo docker run --rm -d --name <container name> -it <image name>
+## Create an image ##
+* sudo docker build <docker folder location> -t <image tag>
+* building takes time the first time, subsequent times caching takes place
+* building involves creating several child temp containers to perform the build steps
 
-# enter into container with (for ubuntu based)
-sudo docker exec -it <container name> /bin/bash
+## Mounting ##
+* format is local_machine:container
+* -p for ports and -v for volumes
+* multiple ports and volumes can be mounted, each with -p and -v respectively
+* mounting of volumes allows changes in docker container to be seen on host and vice versa
+* there is a difference between mounting /data and ~/data on the local machine to the container
 
-for alpine based
-sudo docker exec -it <container name> /bin/sh
+## The--rm flag ##
+* if you stop the container, then the container gets auto removed when this flag is enabled
+* sudo docker run --rm -d --name <container name> -it <image name>
 
-note that you CANNOT copy files outside of the build context folder, 
-so you have to run COPY . /containerdata if you want to copy all contents from "Dockerfile's current folder" to the container created
+## Enter into container ##
+* ubuntu: sudo docker exec -it <container name> /bin/bash
+* alpine: sudo docker exec -it <container name> /bin/sh
+* entry point is set at the working dir specified in the docker file
+
+## Misc ##
+* note that you CANNOT copy files outside of the build context folder 
+* so you have to run COPY . /data if you want to copy all contents from "Dockerfile's current folder" (on host) to the container created

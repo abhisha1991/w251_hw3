@@ -1,0 +1,21 @@
+These are the instructions for the image processor module.
+
+- We install s3fs and configure a bucket + service credentials in ibm cloud as per the instructions in week 2 / https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-s3fs
+- In our case, the bucket is called abhihw3bucket
+- We create the .cos_creds file to store the keys locally on the host machine
+- We create a directory on the host machine called /data
+- We mount the bucket we created in ibm cloud to this directory with the below command
+- s3fs abhihw3bucket $HOME/data -o url=https://s3.us-east.cloud-object-storage.appdomain.cloud -o passwd_file=$HOME/.cos_creds
+- Now these 2 (the remote bucket and the local /data directory) are synced, so any changes made to the data directory show up in the bucket and vice versa
+- Next we create a network bridge for our broker container to be able to interact with our subscriber image processor: "docker network create --driver bridge hw03"
+- Now we go into the imgprocfiles folder and build the image: "docker build . -t imgproc1"
+- Now we start our mosquitto broker container and attach the network bridge to it: "docker run -dit  --network hw03 --name mosquitto1 -p 1883:1883 eclipse-mosquitto" 
+- This establishes a broker that is listening on port 1833 for all IP addresses on the host node
+- Finally we start our subscriber by attaching it to the same network bridge + by mounting the data drive of the container with the data folder on the host machine
+- docker run -dit --network hw03 --name test -v ~/data:/data imgproc1
+- Now we can test the publishing by using a publish client like MQTT-Lens sending data to the public IP of the host machine (in this case 50.22.169.235 - can change when vm reboots)
+- Note that the topic on which we publish MUST match the topic of the subscriber - in this case fdimages/#
+- The subscriber creates data files in the container data folder
+- Since this folder is mapped to /data folder on the host machine, which is further mapped to s3 in ibmcloud, the files created by the container are expected to show in the s3 bucket
+
+
