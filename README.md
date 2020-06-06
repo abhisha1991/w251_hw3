@@ -10,6 +10,7 @@ The project consists of 3 folders:
 The general pattern to run any of the sub folders is as follows:
 1. build the docker image for the module
 2. launch the containers for the module
+3. Each module has an instructions.txt that explains step by step on how to reproduce the results in each module
 
 Note that the pre requisites to run the project imply that the user must have a jetson tx2 and a usb camera.
 
