@@ -6,6 +6,7 @@ import requests
 import random
 import os
 import paho.mqtt.client as paho
+import uuid
 
 # init mqtt
 broker = "mosquitto1"
@@ -50,10 +51,13 @@ while(True):
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    for f in faces:
+    for (x,y,w,h) in faces:
+        img = cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = img[y:y+h, x:x+w]
         # bad design - writing and then re-reading image, needs to be revisited
-        img_name = "{0}/image.jpg".format(path)
-        cv2.imwrite(img_name, frame)
+        img_name = "{0}/image-{1}.jpg".format(path, str(uuid.uuid4()))
+        cv2.imwrite(img_name, roi_gray)
         image = cv2.imread(img_name)
         # finally send the image via mqtt
         ret = client1.publish("fdimagestx2/test", bytes(image))
