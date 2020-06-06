@@ -1,0 +1,9 @@
+This doc explains the topics used in the assignment:
+1. Basically there are 2 topics that are used: fdimagestx2/# and fdimages/#
+2. fdimagestx2/# is used by the face detector container to send images to the mqtt broker that is hosted on the jetson
+3. The same topic fdimagestx2/# is received by the subscriber module in the forwarder container that resides within the jetson
+4. Within the forwarder container, we have a second client that does the publishing to the remote cloud vm - the topic being used here is "fdimages/#"
+5. On the cloud vm side, the image processor module subscribes to the topic "fdimages/#"
+6. When the forwarder on the jetson publishes data on "fdimages/#" it is received by the image processor
+7. The images are then sent from the image processor to the ibm s3 bucket by the mounting that is done on the volume 
+
