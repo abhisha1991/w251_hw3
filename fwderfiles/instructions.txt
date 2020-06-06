@@ -5,7 +5,8 @@ These are the instructions for the image forwarder module.
 - Here we have 2 clients, one that is a subscriber that listens to incoming messages from the broker
 - The other just republishes the payload it receives, this time to the remote ibm cloud machine 50.22.169.235
 - Note that the broker connections can be set up using the container name directly "mosquitto1" instead of giving a specific IP address
-- Why? Because we have already established the network bridge where all containers can ping each other
+- Why? Because we have already established the network bridge where all containers can ping each other: "docker network create --driver bridge hw03"
+- For the forwarder, we just start our forwarding container (after building the image) as follows: docker run -dit --name fwd1 --network hw03 fdwimage1
 - **Notice the difference in topic names in our containers**
 - Within the TX2, we have used the topic "fdimagestx2/test" between the image publish container and the forwarder
 - Between the TX2 and the cloud broker vm, we have used a different topic name "fdimages/test"
