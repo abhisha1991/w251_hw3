@@ -15,3 +15,5 @@ The general pattern to run any of the sub folders is as follows:
 Note that the pre requisites to run the project imply that the user must have a jetson tx2 and a usb camera.
 
 Note that we can choose to use the alpine broker by creating our own broker or we can use an off the shelf broker like eclipse-mosquitto
+
+Also note that the QOS and topics have been explained in the doc: topics_qos_explanation.txt

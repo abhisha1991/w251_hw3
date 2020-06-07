@@ -1,0 +1,24 @@
+This doc explains the topics and qos used in the assignment:
+
+Topics
+
+1. Basically there are 2 topics that are used: "fdimagestx2/#" and "fdimages/#"
+2. "fdimagestx2/#" is used by the face detector container to send images to the mqtt broker that is hosted on the jetson
+3. The same topic "fdimagestx2/#" is received by the subscriber module in the forwarder container that resides within the jetson
+4. Within the forwarder container, we have a second client that does the publishing to the remote cloud vm - the topic being used here is "fdimages/#"
+5. On the cloud vm side, the image processor module subscribes to the topic "fdimages/#"
+6. When the forwarder on the jetson publishes data on "fdimages/#" it is received by the image processor
+7. The images are then sent from the image processor to the ibm s3 bucket by the mounting that is done on the volume 
+
+
+QOS
+
+1. The QOS chosen is always 0 throughout all the publishers and subscribers
+2. Note: If the subscribing client defines a lower QoS than the publishing client, the broker transmits the message with the lower quality of service
+3. In this case, it doesn't matter because the QOS is 0 for all cases
+4. The minimal QoS level is zero. This service level guarantees a best-effort delivery and there is no guarantee on message delivery. This is the "fire and forget model"
+5. This may be relevant in our case - where the jetson may be operating in an environment that is resource constrained / where there are plenty of streaming images that we process
+6. When dealing with streaming images, dropping a few images here and there in transmission should not matter
+7. If QOS would have been 1, the sender would store the message and resend until we get a PUBACK signal from the broker - this may result in a slower and constrained version of the publisher, which is not desired
+8. If QOS would have been 2, we would have guaranteed that every frame is sent to the subscriber. This would involve a more involved 4 way handshake - PUBLISH, PUBREC, PUBREL, PUBCOMP (which is an overkill for this app)
+9. More details here: https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels/
