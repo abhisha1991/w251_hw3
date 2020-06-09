@@ -2,10 +2,11 @@
 
 This project covers home work 2 for class w251: https://github.com/MIDS-scaling-up/v2/tree/master/week03/hw
 
-The project consists of 3 folders:
+The project consists of 4 folders:
 1. fdfiles contains the files necessary for the face detector module that runs on the TX2 module
 2. fwderfiles contains the files necessary for the forwarding module that receives data from the face detector via the mosquitto broker and forwards it to the remote ibm cloud vsi
 3. imgprocfiles contains the files necessary for the image processor module that runs in the ibm cloud vsi and sends data to ibm storage
+4. images contains some sample result images of cropped faces in black and white
 
 The general pattern to run any of the sub folders is as follows:
 1. build the docker image for the module
